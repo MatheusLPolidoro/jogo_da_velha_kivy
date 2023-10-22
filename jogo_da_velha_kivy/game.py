@@ -11,7 +11,7 @@ def drop_duplicates(seq):
            checked.append(e)
    return checked
 
-def fields_check(cols=9, rows=9, len_win=5) -> dict:
+def fields_check(cols=11, rows=11, len_win=6) -> dict:
     """
         Conforme colunas, linhas tamanho de sequencia, 
         cria um dicionario para chegar o vencedor.
@@ -37,8 +37,10 @@ def fields_check(cols=9, rows=9, len_win=5) -> dict:
             if pos < len(grid):
                 list_horizontal.append(grid[pos])
         
-        grid_horizontal.append(list_vertical)
-        grid_vertical.append(list_horizontal)
+        if len(list_vertical) >= len_win:
+            grid_horizontal.append(list_vertical)
+        if len(list_horizontal) >= len_win:
+            grid_vertical.append(list_horizontal)
         length -= 1
 
     vertical_left_right = grid_horizontal + grid_vertical
@@ -56,12 +58,14 @@ def fields_check(cols=9, rows=9, len_win=5) -> dict:
 
         for num_diag in range(num, length * rows - 1, cols - 1):
             list_vertical.append(grid[num_diag])
-            pos = num_diag + cols - ((rows - len_win) % 2) + (index * (cols + 1))
+            pos = num_diag + (cols * 2) + (index * (cols + 1))
             if pos < len(grid):
                 list_horizontal.append(grid[pos])
         
-        grid_horizontal.append(list_vertical)
-        grid_vertical.append(list_horizontal)
+        if len(list_vertical) >= len_win:
+            grid_horizontal.append(list_vertical)
+        if len(list_horizontal) >= len_win:
+            grid_vertical.append(list_horizontal)
         length -= 1
 
     vertical_right_left = grid_horizontal + grid_vertical
